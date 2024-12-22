@@ -2,6 +2,8 @@ import react, { useEffect, useState } from "react";
 import "./Home.scss";
 import axios from "axios";
 import React from 'react'
+import { BiPlay } from "react-icons/bi"
+import { AiOutlinePlus } from "react-icons/ai"
 import {fetchFromTMDB} from "../../Services.js";
 const imgUrl = "https://image.tmdb.org/t/p/original";
 const Card = ({img}) =>(
@@ -40,7 +42,7 @@ const Home = () => {
        const ratedMoviesData=await fetchFromTMDB(
           'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
         );
-        upcomingMovies= await fetchFromTMDB(
+       const upcomingMovies= await fetchFromTMDB(
           'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1'
         );
         setPlayingMovies(playingMoviesData.results);
@@ -58,7 +60,17 @@ const Home = () => {
     <section className="home">
    <div className="banner"  style={{backgroundImage: popularMovies[0]
                         ? `url(${`${imgUrl}/${popularMovies[0].poster_path}`})`
-                        : "rgb(16, 16, 16)",}}>     </div>
+                        : "rgb(16, 16, 16)",}}> 
+        {popularMovies[0] && <h1>{popularMovies[0].original_title}</h1>}
+                {popularMovies[0] && <p>{popularMovies[0].overview}</p>}
+
+                <div>
+                    <button><BiPlay /> Play  </button>
+                    <button>My List <AiOutlinePlus /> </button>
+                </div>              
+                        
+                        
+                            </div>
   <Row title={"Popular on the Netflix"} arr={popularMovies} />
   <Row title={"Now Playing Movies"} arr={playingMovies} />
   <Row title={"Top Rated on the Netflix"} arr={ratedMovies} />
