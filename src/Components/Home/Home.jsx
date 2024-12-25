@@ -1,6 +1,5 @@
-import react, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "./Home.scss";
-import axios from "axios";
 import React from 'react'
 import {fetchFromTMDB} from "../../Services.js";
 const imgUrl = "https://image.tmdb.org/t/p/original";
