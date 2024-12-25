@@ -13,7 +13,7 @@ export const fetchFromTMDB = async (url)=> {
         }
    }
    const responce = await axios.get(url,options);
-   console.log("hii");
+   
    return responce.data;
 }
    
