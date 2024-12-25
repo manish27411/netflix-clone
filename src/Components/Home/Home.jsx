@@ -42,7 +42,7 @@ const Home = () => {
 }, []);
   return (
     <section className="home">
-   <div className="banner"  style={{backgroundImage :`url(${`${imgUrl}/${popularMovies[0].poster_path}`})`}}>     </div>
+   <div className="banner"  style={{backgroundImage :`url(${`${imgUrl}/${popularMovies[0]}`})`}}>     </div>
   <Row title={"Popular on the Netflix"} arr={popularMovies} />
     </section>
   )
