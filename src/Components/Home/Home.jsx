@@ -1,6 +1,9 @@
-import  { useEffect, useState } from "react";
+import react, { useEffect, useState } from "react";
 import "./Home.scss";
+import axios from "axios";
 import React from 'react'
+import { BiPlay } from "react-icons/bi"
+import { AiOutlinePlus } from "react-icons/ai"
 import {fetchFromTMDB} from "../../Services.js";
 const imgUrl = "https://image.tmdb.org/t/p/original";
 const Card = ({img}) =>(
@@ -23,6 +26,9 @@ const Row = ({title,arr= []})=>(
 )
 const Home = () => {
     const [popularMovies, setPopularMovies] = useState([]);
+    const [playingMovies, setPlayingMovies] = useState([]);
+    const [ratedMovies, setRatedMovies] = useState([]);
+    const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +36,19 @@ const Home = () => {
         const popularMoviesData = await fetchFromTMDB(
           'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1'
         );
-        
+        const playingMoviesData=await fetchFromTMDB(
+          'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1'
+        );
+       const ratedMoviesData=await fetchFromTMDB(
+          'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
+        );
+       const upcomingMovies= await fetchFromTMDB(
+          'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1'
+        );
+        setPlayingMovies(playingMoviesData.results);
         setPopularMovies(popularMoviesData.results);
+         setRatedMovies(ratedMoviesData.results);
+        setUpcomingMovies(upcomingMovies.results);
       } catch (error) {
         console.error("Error fetching TMDB data:", error);
       }
@@ -41,10 +58,24 @@ const Home = () => {
 }, []);
   return (
     <section className="home">
-   <div className="banner"  style={{backgroundImage :`url(${`${imgUrl}/${popularMovies[0]}`})`}}>     </div>
+   <div className="banner"  style={{backgroundImage: popularMovies[0]
+                        ? `url(${`${imgUrl}/${popularMovies[0].poster_path}`})`
+                        : "rgb(16, 16, 16)",}}> 
+        {popularMovies[0] && <h1>{popularMovies[0].original_title}</h1>}
+                {popularMovies[0] && <p>{popularMovies[0].overview}</p>}
+
+                <div>
+                    <button><BiPlay /> Play  </button>
+                    <button>My List <AiOutlinePlus /> </button>
+                </div>              
+                        
+                        
+                            </div>
   <Row title={"Popular on the Netflix"} arr={popularMovies} />
+  <Row title={"Now Playing Movies"} arr={playingMovies} />
+  <Row title={"Top Rated on the Netflix"} arr={ratedMovies} />
+  <Row title={"Upcoming Movies"} arr={upcomingMovies} />
     </section>
   )
 }
-
 export default Home
