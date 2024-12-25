@@ -1,6 +1,5 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Home.scss";
-import axios from "axios";
 import React from 'react'
 import { BiPlay } from "react-icons/bi"
 import { AiOutlinePlus } from "react-icons/ai"
